@@ -214,9 +214,13 @@ class MarryPlugin(Star):
         return old_spouse, new_spouse, None
 
     # ---------- 事件入口 ----------
-    @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
+    @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE, priority=999)
     async def on_group_message(self, event: AstrMessageEvent):
-        """监听群消息，处理娶群友/离婚/换一个指令。"""
+        """监听群消息，处理娶群友/离婚/换一个指令。
+
+        priority=999 让本插件的 handler 优先执行；
+        匹配到指令后调用 stop_event() 终止事件传播，防止被 LLM 对话拦截抢答。
+        """
         if not self.config.get("enable", True):
             return
 
@@ -225,12 +229,22 @@ class MarryPlugin(Star):
         if text.startswith("/"):
             text = text[1:].strip()
 
+        matched = False
         if text in CMD_MARRY:
-            await self._handle_marry(event)
+            async for result in self._handle_marry(event):
+                yield result
+            matched = True
         elif text in CMD_DIVORCE:
-            await self._handle_divorce(event)
+            async for result in self._handle_divorce(event):
+                yield result
+            matched = True
         elif text in CMD_CHANGE:
-            await self._handle_change(event)
+            async for result in self._handle_change(event):
+                yield result
+            matched = True
+
+        if matched:
+            event.stop_event()
 
     async def _handle_marry(self, event: AstrMessageEvent):
         group_id = event.get_group_id()
