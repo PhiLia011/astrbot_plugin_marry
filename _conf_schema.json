@@ -1,0 +1,22 @@
+{
+  "enable": {
+    "type": "bool",
+    "description": "插件总开关",
+    "default": true
+  },
+  "at_both": {
+    "type": "bool",
+    "description": "绑定/离婚/更换时是否 @ 双方",
+    "default": true
+  },
+  "default_daily_limit": {
+    "type": "int",
+    "description": "每个用户每日可更换配偶的次数上限（全局默认）",
+    "default": 3
+  },
+  "group_limits": {
+    "type": "object",
+    "description": "每个群单独设置每日更换次数上限，格式：{\"群号\": 次数}。未配置的群使用上面的全局默认值",
+    "default": {}
+  }
+}

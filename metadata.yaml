@@ -1,0 +1,5 @@
+name: astrbot_plugin_marry
+desc: 娶群友插件：发送"娶群友"随机匹配群友结为夫妻，支持"离婚"解除绑定、"换一个"重新绑定，每群可单独设置每日更换次数上限，绑定时可@双方
+author: Firefly
+version: 1.0.0
+repo: https://github.com/PhiLia011/astrbot_plugin_marry
