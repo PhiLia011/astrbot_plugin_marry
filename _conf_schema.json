@@ -15,8 +15,9 @@
     "default": 3
   },
   "group_limits": {
-    "type": "object",
+    "type": "dict",
     "description": "每个群单独设置每日更换次数上限，格式：{\"群号\": 次数}。未配置的群使用上面的全局默认值",
-    "default": {}
+    "default": {},
+    "items": {}
   }
 }
